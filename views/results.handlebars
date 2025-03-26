@@ -19,6 +19,37 @@
 <body>
     <a href="/">Return to Search</a>
 
-    
+    {{#with query}}
+      {{#if title}}<span>Title: {{title}}</span>{{/if}}
+      {{#if year}}<span>Year: {{year}}</span>{{/if}}
+    {{/with}}
+
+    {{#if movies}}
+      {{#each movies}}
+      {{!-- {"title":"After Dark in Central Park","year":1900,"cast":[],"genres":[]} --}}
+        <div class="movie">
+        <p>Title: {{this.title}}</p>
+        <p>Year: {{this.year}}</p>
+        {{#if this.cast}}
+          <p>Cast:</p>
+          <ul>
+          {{#each this.cast}}
+            <li>
+              {{#if this.isStarring}}
+                <strong>{{this.name}}</strong>
+              {{else}}
+                {{this.name}}
+              {{/if}}
+            </li>
+          {{/each}}
+          </ul>
+        {{/if}}
+        </div>
+      {{/each}}
+
+      {{else}}
+        <p>No results</p>
+
+    {{/if}}
 </body>
 </html>

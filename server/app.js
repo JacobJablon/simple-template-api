@@ -11,20 +11,27 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const app = express();
 
-app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
-app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
+const attachMiddleWare = (app) => {
+  app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
+  app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
 
-app.use(compression());
+  app.use(compression());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+}
 
-app.engine('handlebars', expressHandlebars.engine({
-  defaultLayout: '',
-}));
-app.set('view engine', 'handlebars');
+const attachHandlebars = (app) => {
+  app.engine('handlebars', expressHandlebars.engine({
+    defaultLayout: '',
+  }));
+  app.set('view engine', 'handlebars');
 
-app.set('views', `${__dirname}/../views`);
+  app.set('views', `${__dirname}/../views`);
+}
+
+attachMiddleWare(app);
+attachHandlebars(app);
 
 router(app);
 
